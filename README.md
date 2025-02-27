@@ -2,6 +2,14 @@
 
 Este proyecto es una demostración de cómo usar GitHub Actions y OpenAI para automatizar la validación de Pull Requests según criterios específicos.
 
+## 🧪 Demo
+
+Para probar el validador:
+
+1. Crea un nuevo PR
+2. El validador se ejecutará automáticamente
+3. Revisa los comentarios del bot
+
 ## 🎯 Objetivo
 
 Automatizar la revisión de PRs verificando:
