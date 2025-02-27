@@ -8,21 +8,48 @@ jobs:
   validate-pr:
     runs-on: ubuntu-latest
     permissions:
+      contents: write
       pull-requests: write
+      issues: write
+      checks: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
+      - name: Debug Info
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Event name: ${{ github.event_name }}"
+          ls -la
+          echo "GitHub Event Path: $GITHUB_EVENT_PATH"
+
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm init -y
+          npm install @actions/github openai
+          chmod +x .github/scripts/validate-pr.js
 
       - name: Validate PR
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node .github/scripts/validate-pr.js
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+        run: |
+          echo "Starting PR validation..."
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Event path: $GITHUB_EVENT_PATH"
+          echo "Files in current directory:"
+          ls -la
+          echo "Content of event file:"
+          cat $GITHUB_EVENT_PATH || echo "Could not read event file"
+          node .github/scripts/validate-pr.js

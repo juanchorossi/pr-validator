@@ -1,0 +1,65 @@
+{
+  "codeOrganization": {
+    "componentPaths": ["/package/ui/src/atoms", "/package/ui/src"],
+    "rules": [
+      "No hardcoded hex values in Tailwind",
+      "Fonts must be centralized in tailwind.config.js",
+      "Reusable components must be in correct directory"
+    ]
+  },
+  "documentation": {
+    "requiredFiles": ["CHANGELOG.md"],
+    "rules": [
+      "Environment variables must be documented and created in production",
+      "Figma URLs must be provided for UI changes",
+      "Test steps must be documented",
+      "Vercel preview URL must be provided",
+      "Changes impact and context must be described",
+      "Dependencies must be listed if required"
+    ]
+  },
+  "testing": {
+    "rules": [
+      "Tests must fail when changes are not present",
+      "Changes must include test coverage"
+    ]
+  },
+  "commitMessage": {
+    "types": ["feat", "fix", "docs", "style", "refactor", "test", "chore"],
+    "format": "<type>(<scope>): <description>",
+    "examples": [
+      "feat(auth): add login with google",
+      "fix(ui): correct button alignment"
+    ]
+  },
+  "prTemplate": {
+    "sections": [
+      "# Descripción",
+      "Incluye un resumen del cambio y qué problema soluciona.",
+      "También proporciona si el cambio impacta en algun flujo adicional y el contexto relevante.",
+      "Lista cualquier dependencia necesaria para este cambio.",
+      "",
+      "## Capturas de Pantalla",
+      "- Si hay un cambio visual, incluye capturas de pantalla.",
+      "",
+      "## Revisión de los Cambios",
+      "- URL de vista previa en Vercel: [URL]",
+      "",
+      "### Pasos de Prueba",
+      "- Navega a la URL de vista previa en Vercel",
+      "- [Pasos específicos]",
+      "",
+      "## Checklist",
+      "",
+      "### QA",
+      "- [ ] Componentes en /package/ui/src/atoms o /package/ui/src",
+      "- [ ] Variables de entorno documentadas y en producción",
+      "- [ ] Cambios coinciden con Figma: [URL]",
+      "- [ ] No hay valores hex hardcodeados",
+      "- [ ] CHANGELOG.md actualizado",
+      "",
+      "### Tests",
+      "- [ ] Tests fallan si los cambios no están presentes"
+    ]
+  }
+}
