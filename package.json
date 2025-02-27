@@ -1,16 +1,13 @@
 {
+  "name": "pr-validator",
+  "version": "1.0.0",
+  "description": "PR Validator with Claude AI",
+  "main": "index.js",
   "dependencies": {
     "@actions/github": "^6.0.0",
-    "openai": "^4.28.0"
+    "@anthropic-ai/sdk": "^0.18.0"
   },
-  "name": "commit-ai",
-  "version": "1.0.0",
-  "description": "Este proyecto es una demostración de cómo usar GitHub Actions y OpenAI para automatizar la validación de Pull Requests según criterios específicos.",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "validate": "node .github/scripts/validate-pr.js"
+  }
 }
