@@ -76,12 +76,9 @@ async function validatePR() {
     const message = await anthropic.messages.create({
       model: "claude-3-sonnet-20240229",
       max_tokens: 4096,
+      system:
+        "You are a strict code reviewer that validates PRs based on specific criteria. Provide clear, actionable feedback and always check all criteria.",
       messages: [
-        {
-          role: "system",
-          content:
-            "You are a strict code reviewer that validates PRs based on specific criteria. Provide clear, actionable feedback and always check all criteria.",
-        },
         {
           role: "user",
           content: prompt,
