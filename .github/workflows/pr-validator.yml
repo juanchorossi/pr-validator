@@ -35,13 +35,13 @@ jobs:
       - name: Install dependencies
         run: |
           npm init -y
-          npm install @actions/github openai
+          npm install @anthropic-ai/sdk @actions/github
           chmod +x .github/scripts/validate-pr.js
 
       - name: Validate PR
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
         run: |

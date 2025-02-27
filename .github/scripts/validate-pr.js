@@ -1,10 +1,10 @@
-const { OpenAI } = require("openai");
+const { Anthropic } = require("@anthropic-ai/sdk");
 const { getOctokit } = require("@actions/github");
 const path = require("path");
 const fs = require("fs");
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
 const octokit = getOctokit(process.env.GITHUB_TOKEN);
@@ -63,24 +63,22 @@ async function validatePR() {
       Valid types: ${config.commitMessage.types.join(", ")}
 
       PR Title: ${pr.title}
-      PR Description: ${pr.body}
+      PR Description: ${pr.body || "No description provided"}
 
       Changed files:
-      ${files.map((file) => `${file.filename}: ${file.patch}`).join("\n")}
+      ${files.map((file) => `${file.filename}:\n${file.patch}`).join("\n\n")}
 
       Please provide a detailed review focusing on these criteria. For each issue found, 
       explain why it's an issue and how to fix it. Format your response with clear sections 
       for each category of issues found.
-    `;
+    `.trim();
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4",
+    const message = await anthropic.messages.create({
+      model: "claude-3-5-sonnet-20241022",
+      max_tokens: 4096,
+      system:
+        "You are a strict code reviewer that validates PRs based on specific criteria. Provide clear, actionable feedback and always check all criteria.",
       messages: [
-        {
-          role: "system",
-          content:
-            "You are a strict code reviewer that validates PRs based on specific criteria. Provide clear, actionable feedback and always check all criteria.",
-        },
         {
           role: "user",
           content: prompt,
@@ -88,7 +86,7 @@ async function validatePR() {
       ],
     });
 
-    const review = completion.choices[0].message.content;
+    const review = message.content[0].text;
 
     // Comment the review on the PR
     await octokit.rest.issues.createComment({
